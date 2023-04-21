@@ -118,12 +118,12 @@ object ChatService {
                 call: Call<SendMessageResponse>,
                 response: Response<SendMessageResponse>
             ) {
-                if(response.isSuccessful){
-                    val resp = response.body()!!
-                    sendMessageView.onSendMessageSuccess(resp.result)
-                } else {
-                    sendMessageView.onSendMessageFailure(response.code(), response.message())
+                val resp = response.body()!!
+                Log.d("resp", resp.toString())
 
+                when (resp.code) {
+                    1000 -> sendMessageView.onSendMessageSuccess(resp.result)
+                    else -> sendMessageView.onSendMessageFailure(resp.code, resp.message)
                 }
             }
 
